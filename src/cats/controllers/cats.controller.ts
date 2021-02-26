@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ValidationPipe } from 'src/common/validation.pipe';
 import { CreateCatDto } from '../dto/cat.dto';
 import { ICat } from '../models/cat.model';
 import { CatsService } from '../services/cats.service';
@@ -8,8 +9,7 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Post()
-  async create(@Body() createCatDto: CreateCatDto) {
-    // throw new ForbiddenException();
+  async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
 
